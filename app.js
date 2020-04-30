@@ -4,6 +4,10 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+const util = require("util");
+
+const writeFileAsync = util.promisify(fs.writeFile);
+const mkdirSync = util.promisify(fs.mkdirSync);
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -14,12 +18,60 @@ const getUserInput = require("./lib/userInput");
 
 const main = async () => {
     const employees = await getUserInput();
-    console.log(employees);
-  };
-  
+    const team = [];
 
+    for (let i = 0; i < employees.length; i++) {
+      
+        switch(employees[i].role) 
+        {
+          case 'Manager':
+            let new_manager = new Manager(employees[i].name,employees[i].id,employees[i].email,employees[i].officeNumber);
+            team.push(new_manager);
+            break;
+          case 'Engineer':
+            let new_engineer = new Engineer(employees[i].name,employees[i].id,employees[i].email,employees[i].github);
+            team.push(new_engineer);
+            break;
+          case 'Intern':
+            let new_intern = new Intern(employees[i].name,employees[i].id,employees[i].email,employees[i].school);
+            team.push(new_intern);
+          break;
+          default:
+        } 
+
+      }
+
+      html = render(team);
+
+      uploadFolerExists =  async () => {
+        try {
+          await mkdirSync(OUTPUT_DIR);
+          return true;
+        } catch(error) {
+          if (error.code != 'EEXIST') throw error;
+          return false
+        }
+      }
+
+      uploadFolerExists(); 
+
+      uploadFolerExists ? writeFile() : 'Problem';      
+      
+      async function writeFile()
+      {  
+          try {
+              await writeFileAsync(`${outputPath}`, html);
+              console.log('SUCCESS: team.html is created');
+          }
+          catch(error) {
+              console.error('ERROR WHEN WRITING FILE: ' + error);
+              return false;
+          }
+      }
+
+    };
+    
   main();
-
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
