@@ -2,7 +2,7 @@
 
 Demo - https://www.youtube.com/watch?v=JagS5wKAUiU&feature=youtu.be (Select HD to see clearly)
 
-Sample readme - https://udara.github.io/team_profile_generator/upload/team.html
+Sample readme - https://udara.github.io/team_profile_generator/output/team.html
 
 # Unit 10 OOP Homework: Template Engine - Employee Summary
 
