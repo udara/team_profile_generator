@@ -19,7 +19,7 @@ const getUserInput = require("./lib/userInput");
 const main = async () => {
     const employees = await getUserInput();
     const team = [];
-
+    // initiate an array of objects depending on the role of the employee
     for (let i = 0; i < employees.length; i++) {
       
         switch(employees[i].role) 
@@ -41,8 +41,9 @@ const main = async () => {
 
       }
 
-      html = render(team);
+      html = render(team); // Generate html code block
 
+      // Check if Upload folder exists if not create it. Else throu error.
       uploadFolerExists =  async () => {
         try {
           await mkdirSync(OUTPUT_DIR);
@@ -55,7 +56,7 @@ const main = async () => {
 
       uploadFolerExists(); 
 
-      uploadFolerExists ? writeFile() : 'Problem';      
+      uploadFolerExists ? writeFile() : Console.log('ERROR: CANNOT FIND UPLOAD FOLDER');      
       
       async function writeFile()
       {  
